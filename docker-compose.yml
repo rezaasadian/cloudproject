@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8003"
+    container_name: project
+    volumes:
+      - .:/project
+    ports:
+      - "8003:8003"
+
+  authentication-api:
+    image: sajadkh/doctor_system_authentication
+    expose:
+      - "80"
+    ports:
+      - "8004:80"
+
+  doctorpanel-api:
+    image: sajadkh/doctor_system_doctor_panel
+    expose:
+      - "80"
+    ports:
+      - "8001:80"
+
+  patientpanel-api:
+    image: sajadkh/doctor_system_patient_panel
+    expose:
+      - "80"
+    ports:
+      - "8002:80"
